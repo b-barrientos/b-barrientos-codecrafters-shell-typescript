@@ -1,3 +1,4 @@
+import { exit } from "process";
 import { createInterface } from "readline";
 
 const rl = createInterface({
@@ -8,6 +9,11 @@ const rl = createInterface({
 function promptUser () {
 // This automatically prompts with the first expected prompt of "$ ${answer}"
 rl.question("$ ", (answer) => {
+  // Early exit if user enters exit 0  to prompt
+  if (answer === "exit 0") {
+    exit();
+  }
+
   // handle user input
   rl.write(`${answer}: command not found\n`);
 
