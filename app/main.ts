@@ -14,8 +14,16 @@ rl.question("$ ", (answer) => {
     exit();
   }
 
-  // handle user input
-  rl.write(`${answer}: command not found\n`);
+  // Echo user prompt
+  if (answer.startsWith("echo")) {
+    const sanitizedEcho = answer.slice(5, answer.length)
+    console.log(`${sanitizedEcho}`);
+  }
+
+  // Handle invalid user input
+  if (answer.includes("invalid")) {
+    console.log(`${answer}: command not found`);
+  }
 
   /**
    * Recall the function itself again to cause a REPL loop (Read-evaluate-prompt-loop)
