@@ -6,6 +6,10 @@ const rl = createInterface({
 });
 
 rl.question("$ ", (answer) => {
-  rl.write(`${answer}: command not found`);
+  let i = 0;
+  while (answer) {
+  rl.write(`${answer}${i}: command not found`);
+  i++;
+  }
   rl.close();
 });
