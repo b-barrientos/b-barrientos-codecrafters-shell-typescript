@@ -6,20 +6,31 @@ const rl = createInterface({
   output: process.stdout,
 });
 
+const types = {
+  ECHO: "echo",
+  HELP: "help",
+  EXIT: "exit",
+  INVALID: "invalid",
+  TYPE: "type",
+};
+
 function promptUser() {
   // This automatically prompts with the first expected prompt of "$ ${answer}"
   rl.question("$ ", (answer) => {
     // Early exit if user enters exit 0  to prompt
-    if (answer === "exit 0") {
+    if (answer === `${types.EXIT} 0`) {
       exit();
+    } else if (answer.startsWith(types.TYPE)) {
+      const typeMessage = answer.slice(5, answer.length);
+      console.log(`${typeMessage}: is a shell builtin`);
     }
     // Echo user prompt
-    else if (answer.startsWith("echo")) {
+    else if (answer.startsWith(types.ECHO)) {
       const sanitizedEcho = answer.slice(5, answer.length);
       console.log(`${sanitizedEcho}`);
     }
     // Handle invalid user input
-    else if (answer.includes("invalid")) {
+    else if (answer.includes(types.INVALID)) {
       console.log(`${answer}: command not found`);
     }
     /**
