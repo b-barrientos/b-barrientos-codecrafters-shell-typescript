@@ -20,9 +20,11 @@ function promptUser() {
     // Early exit if user enters exit 0  to prompt
     if (answer === `${types.EXIT} 0`) {
       exit();
-    } else if (answer.startsWith(types.TYPE)) {
+    }
+    // Present type help message
+    else if (answer.startsWith(types.TYPE) && !answer.includes(types.INVALID)) {
       const typeMessage = answer.slice(5, answer.length);
-      console.log(`${typeMessage}: is a shell builtin`);
+      console.log(`${typeMessage} is a shell builtin`);
     }
     // Echo user prompt
     else if (answer.startsWith(types.ECHO)) {
@@ -31,7 +33,13 @@ function promptUser() {
     }
     // Handle invalid user input
     else if (answer.includes(types.INVALID)) {
-      console.log(`${answer}: command not found`);
+      let invalidAnswer = "";
+      if (answer.startsWith(types.TYPE)) {
+        invalidAnswer = answer.slice(5, answer.length);
+      } else {
+        invalidAnswer = answer;
+      }
+      console.log(`${invalidAnswer}: not found`);
     }
     /**
      * Recall the function itself again to cause a REPL loop (Read-evaluate-prompt-loop)
