@@ -31,9 +31,9 @@ function promptUser() {
       const typeMessage = answer.slice(5, answer.length);
       if (!builtInCommands.includes(types)){
         for (const p of paths) {
-          const filePath = `${p}/${input}`;
+          const filePath = `${p}/${typeMessage}`;
           if (existsSync(filePath)) {
-            rl.write(`${input} is ${filePath}\n`);
+            rl.write(`${typeMessage} is ${filePath}\n`);
             return;
           }
         }
