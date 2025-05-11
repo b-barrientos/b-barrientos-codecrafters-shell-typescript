@@ -1,5 +1,6 @@
 import { exit } from "process";
 import { createInterface } from "readline";
+import { existsSync } from 'fs';
 
 const rl = createInterface({
   input: process.stdin,
@@ -14,6 +15,8 @@ const types = {
   TYPE: "type",
 };
 
+const paths = process.env['PATH']?.split(':') || [];
+
 function promptUser() {
   // This automatically prompts with the first expected prompt of "$ ${answer}"
   rl.question("$ ", (answer) => {
@@ -24,6 +27,15 @@ function promptUser() {
     // Present type help message
     else if (answer.startsWith(types.TYPE) && !answer.includes(types.INVALID)) {
       const typeMessage = answer.slice(5, answer.length);
+      if (!types.includes(types)){
+        for (const p of paths) {
+          const filePath = `${p}/${input}`;
+          if (existsSync(filePath)) {
+            rl.write(`${input} is ${filePath}\n`);
+            return;
+          }
+        }
+      }
       console.log(`${typeMessage} is a shell builtin`);
     }
     // Echo user prompt
