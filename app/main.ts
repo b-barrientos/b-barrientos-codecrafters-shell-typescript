@@ -15,6 +15,8 @@ const types = {
   TYPE: "type",
 };
 
+const builtInCommands = ['echo', 'type', 'exit'];
+
 const paths = process.env['PATH']?.split(':') || [];
 
 function promptUser() {
@@ -27,7 +29,7 @@ function promptUser() {
     // Present type help message
     else if (answer.startsWith(types.TYPE) && !answer.includes(types.INVALID)) {
       const typeMessage = answer.slice(5, answer.length);
-      if (!types.includes(types)){
+      if (!builtInCommands.includes(types)){
         for (const p of paths) {
           const filePath = `${p}/${input}`;
           if (existsSync(filePath)) {
